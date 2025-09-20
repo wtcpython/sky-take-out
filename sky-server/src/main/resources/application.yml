@@ -1,0 +1,54 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: sky-server
+
+  profiles:
+    active: dev
+  main:
+    allow-circular-references: true
+  datasource:
+    driver-class-name: ${sky.datasource.driver-class-name}
+    url: jdbc:postgresql://${sky.datasource.host}:${sky.datasource.port}/${sky.datasource.database}?currentSchema=public
+    username: ${sky.datasource.username}
+    password: ${sky.datasource.password}
+  data:
+    redis:
+      host: ${spring.data.redis.host}
+      port: ${spring.data.redis.port}
+      database: ${spring.data.redis.database}
+
+mybatis:
+  #mapper配置文件
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    #开启驼峰命名
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    com:
+      wtc:
+        mapper: debug
+        service: info
+        controller: info
+
+sky:
+  jwt:
+    admin-secret-key: admin
+    admin-ttl: 7200000
+    admin-token-name: token
+
+    user-secret-key: user
+    user-ttl: 7200000
+    user-token-name: authentication
+  s3:
+    endpoint: ${sky.s3.endpoint}
+    access-key-id: ${sky.s3.access-key-id}
+    access-key-secret: ${sky.s3.access-key-secret}
+    bucket-name: ${sky.s3.bucket-name}
+  wechat:
+    appid: ${sky.wechat.appid}
+    secret: ${sky.wechat.secret}
